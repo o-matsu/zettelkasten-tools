@@ -11,15 +11,18 @@ import {
 import setParent from "./libs/setParent";
 import updateTimestamp from "libs/updateTimestamp";
 import setAliases from "libs/setAliases";
+import createNewZettelkasten from "libs/createNewZettelkasten";
+import createNewLiterature from "libs/createNewLiterature";
 
 // Remember to rename these classes and interfaces!
-
 interface MyPluginSettings {
-	mySetting: string;
+	literatureFolder: string;
+	zettelkastenFolder: string;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: "default",
+	literatureFolder: "00_Insights",
+	zettelkastenFolder: "10_Zettels",
 };
 
 export default class MyPlugin extends Plugin {
@@ -40,6 +43,38 @@ export default class MyPlugin extends Plugin {
 					new Notice("saved", 2000);
 				} catch (error) {
 					console.error(error);
+					new Notice("failed to save", 2000);
+				}
+			},
+		});
+
+		this.addCommand({
+			id: "obsidian-tools-new-zettelkasten",
+			name: "New zettelkasten",
+			callback: async () => {
+				try {
+					await createNewZettelkasten(
+						this.app,
+						this.settings.zettelkastenFolder
+					);
+					new Notice("new zettelkasten note created", 2000);
+				} catch (error) {
+					console.error(error);
+					new Notice("failed to create new zettelkasten note", 2000);
+				}
+			},
+		});
+
+		this.addCommand({
+			id: "obsidian-tools-new-literature",
+			name: "New literature",
+			callback: async () => {
+				try {
+					await createNewLiterature(this.app, this.settings.literatureFolder);
+					new Notice("new literature note created", 2000);
+				} catch (error) {
+					console.error(error);
+					new Notice("failed to create new literature note", 2000);
 				}
 			},
 		});
@@ -158,14 +193,27 @@ class SampleSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName("Setting #1")
-			.setDesc("It's a secret")
+			.setName("Literature folder")
+			.setDesc("The folder where the literature notes are stored")
 			.addText((text) =>
 				text
-					.setPlaceholder("Enter your secret")
-					.setValue(this.plugin.settings.mySetting)
+					.setPlaceholder("Enter the folder name")
+					.setValue(this.plugin.settings.literatureFolder)
 					.onChange(async (value) => {
-						this.plugin.settings.mySetting = value;
+						this.plugin.settings.literatureFolder = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setName("Zettelkasten folder")
+			.setDesc("The folder where the zettelkasten notes are stored")
+			.addText((text) =>
+				text
+					.setPlaceholder("Enter the folder name")
+					.setValue(this.plugin.settings.zettelkastenFolder)
+					.onChange(async (value) => {
+						this.plugin.settings.zettelkastenFolder = value;
 						await this.plugin.saveSettings();
 					})
 			);
