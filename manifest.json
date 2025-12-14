@@ -3,7 +3,7 @@
 	"name": "Zettelkasten Tools",
 	"version": "0.0.0",
 	"minAppVersion": "1.10.6",
-	"description": "Zettelkasten Tools",
+	"description": "All in one Tools for Omatsu Zettelkasten",
 	"author": "o-matsu",
 	"authorUrl": "https://github.com/o-matsu/zettelkasten-tools",
 	"isDesktopOnly": false

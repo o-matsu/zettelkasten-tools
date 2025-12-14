@@ -33,8 +33,13 @@ export default class ZettelkastenTools extends Plugin {
 			"plus",
 			"New Zettelkasten",
 			async (_evt: MouseEvent) => {
-				await createNewZettelkasten(this.app, this.settings.zettelkastenFolder);
-				new Notice("new zettelkasten note created", 2000);
+				try {
+					await createNewZettelkasten(this.app, this.settings.zettelkastenFolder);
+					new Notice("new zettelkasten note created", 2000);
+				} catch (error) {
+					console.error(error);
+					new Notice("failed to create new zettelkasten note", 2000);
+				}
 			}
 		);
 		zettelkastenIconEl.addClass("accent-ribbon-class");
@@ -42,8 +47,13 @@ export default class ZettelkastenTools extends Plugin {
 			"file-plus-2",
 			"New Literature",
 			async (_evt: MouseEvent) => {
-				await createNewLiterature(this.app, this.settings.literatureFolder);
-				new Notice("new literature note created", 2000);
+				try {
+					await createNewLiterature(this.app, this.settings.literatureFolder);
+					new Notice("new literature note created", 2000);
+				} catch (error) {
+					console.error(error);
+					new Notice("failed to create new literature note", 2000);
+				}
 			}
 		);
 
