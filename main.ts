@@ -84,16 +84,26 @@ export default class MyPlugin extends Plugin {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon(
-			"dice",
-			"Sample Plugin",
-			(_evt: MouseEvent) => {
+		const zettelkastenIconEl = this.addRibbonIcon(
+			"plus",
+			"New Zettelkasten",
+			async (_evt: MouseEvent) => {
 				// Called when the user clicks the icon.
-				new Notice("This is a notice!");
+				await createNewZettelkasten(this.app, this.settings.zettelkastenFolder);
+				new Notice("new zettelkasten note created", 2000);
 			}
 		);
 		// Perform additional things with the ribbon
-		ribbonIconEl.addClass("my-plugin-ribbon-class");
+		zettelkastenIconEl.addClass("accent-ribbon-class");
+		this.addRibbonIcon(
+			"file-plus-2",
+			"New Literature",
+			async (_evt: MouseEvent) => {
+				// Called when the user clicks the icon.
+				await createNewLiterature(this.app, this.settings.literatureFolder);
+				new Notice("new literature note created", 2000);
+			}
+		);
 
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
 		const statusBarItemEl = this.addStatusBarItem();

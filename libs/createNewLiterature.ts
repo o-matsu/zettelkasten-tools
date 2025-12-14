@@ -3,8 +3,7 @@ import moment from "moment";
 
 function getLiteratureTemplate() {
 	const now = moment().format("YYYY/MM/DD HH:mm");
-	return `
----
+	return `---
 source:
 tags:
 created_at: ${now}

@@ -6,3 +6,10 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+.accent-ribbon-class {
+	background-color: #555555;
+	color: #ffffff;
+}
+.accent-ribbon-class:hover {
+	border: 1px solid #555555;
+}

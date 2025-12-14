@@ -3,8 +3,7 @@ import moment from "moment";
 
 function getZettelkastenTemplate() {
 	const now = moment().format("YYYY/MM/DD HH:mm");
-	return `
----
+	return `---
 aliases:
 parent:
 created_at: ${now}
