@@ -12,8 +12,9 @@ import updateTimestamp from "libs/updateTimestamp";
 import setAliases from "libs/setAliases";
 import createNewZettelkasten from "libs/createNewZettelkasten";
 import createNewLiterature from "libs/createNewLiterature";
+import createNextFile from "libs/createNextFile";
 
-interface Settings {
+export interface Settings {
 	literatureFolder: string;
 	zettelkastenFolder: string;
 }
@@ -34,7 +35,10 @@ export default class ZettelkastenTools extends Plugin {
 			"New Zettelkasten",
 			async (_evt: MouseEvent) => {
 				try {
-					await createNewZettelkasten(this.app, this.settings.zettelkastenFolder);
+					await createNewZettelkasten(
+						this.app,
+						this.settings.zettelkastenFolder
+					);
 					new Notice("new zettelkasten note created", 2000);
 				} catch (error) {
 					console.error(error);
@@ -58,7 +62,7 @@ export default class ZettelkastenTools extends Plugin {
 		);
 
 		this.addCommand({
-			id: "obsidian-tools-on-save",
+			id: "zettelkasten-tools-on-save",
 			name: "On save",
 			editorCallback: async (_editor: Editor, _view: MarkdownView) => {
 				try {
@@ -77,7 +81,7 @@ export default class ZettelkastenTools extends Plugin {
 		});
 
 		this.addCommand({
-			id: "obsidian-tools-new-zettelkasten",
+			id: "zettelkasten-tools-new-zettelkasten",
 			name: "New zettelkasten",
 			callback: async () => {
 				try {
@@ -94,7 +98,7 @@ export default class ZettelkastenTools extends Plugin {
 		});
 
 		this.addCommand({
-			id: "obsidian-tools-new-literature",
+			id: "zettelkasten-tools-new-literature",
 			name: "New literature",
 			callback: async () => {
 				try {
@@ -103,6 +107,20 @@ export default class ZettelkastenTools extends Plugin {
 				} catch (error) {
 					console.error(error);
 					new Notice("failed to create new literature note", 2000);
+				}
+			},
+		});
+
+		this.addCommand({
+			id: "zettelkasten-tools-next-note",
+			name: "Next note",
+			editorCallback: async (_editor: Editor, _view: MarkdownView) => {
+				try {
+					await createNextFile(this.app, this.settings);
+					new Notice("next note created", 2000);
+				} catch (error) {
+					console.error(error);
+					new Notice("failed to create next note", 2000);
 				}
 			},
 		});
