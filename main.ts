@@ -77,8 +77,8 @@ export default class ZettelkastenTools extends Plugin {
 				try {
 					const activeFile = this.app.workspace.getActiveFile();
 					if (activeFile?.path.startsWith(this.settings.zettelkastenFolder)) {
-						await setParent(this.app);
 						await setAliases(this.app);
+						await setParent(this.app);
 					}
 					await updateTimestamp(this.app);
 					new Notice("saved", 2000);
